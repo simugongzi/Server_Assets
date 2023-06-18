@@ -160,3 +160,8 @@ class Space(KBEngine.Entity, GameObject):
 		GameObject.onGetCell(self)
 		
 
+	def logicEnd(self):
+		#GiveAwardToAvatarsAccount()
+
+
+		self.KickOutAllPlayers()

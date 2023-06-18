@@ -13,3 +13,7 @@ TIMER_TYPE_HEARDBEAT								= 5	# 心跳
 TIMER_TYPE_FIGTH_WATI_INPUT_TIMEOUT					= 6	# 战斗回合等待用户输入超时
 TIMER_TYPE_SPAWN									= 7	# 出生点出生timer
 TIMER_TYPE_DESTROY									= 8	# entity销毁
+
+TIMER_TYPE_SPACE_LOGIC								= 9	# space副本逻辑
+TIMER_TYPE_SPACE_DESTROY_COUNTERDOWN				= 10	# 副本所有玩家离开后 副本销毁
+TIMER_TYPE_SPACE_DESTROY_SPAWN_TIMER				= 11	# 副本所有玩家离开后 副本销毁

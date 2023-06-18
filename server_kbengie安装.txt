@@ -1,0 +1,37 @@
+安装vs2017 professional
+https://visualstudio.microsoft.com/zh-hans/vs/older-downloads/
+选择[Trial] Visual Studio Professional 2017 (version 15.9)
+Visual Studio 2017（VS2017） 专业版Professional 激活码key：KBJFW-NXHK6-W4WJM-CRMQB-G3CDH
+vs插件选择 installer中使用c++桌面开发：其中选择 win10 sdk 10.0.17134.0   
+
+####
+https://dev.mysql.com/downloads/installer/
+弱验证  密码root
+
+python D:/UnReal/Simu/kbe/tools/server/install/installer.py install
+设置环境变量、设置数据库、可手动设置
+###
+
+mysql8.0
+mysql 大小写没有设置为2 否则mysql服务报错
+本机关闭mysql的ssl链接
+C:\ProgramData\MySQL\MySQL Server 8.0\my.ini中加入skip_ssl *重要否则dbmgr会报错 log中显示ssl
+[mysqld]
+skip_ssl
+
+
+
+create database kbe;
+mysql> use mysql 
+mysql> delete from user where user=''; 
+mysql> FLUSH PRIVILEGES;
+#创建全权限的kbe用户用以连接
+create user 'kbe'@'%' identified by 'pwd123456';
+flush privileges;
+
+grant all privileges on *.* to 'kbe'@'%' with grant option;
+flush privileges;
+
+
+exit出mysql后
+ mysql -ukbe -ppwd123456 -hlocalhost -P3306

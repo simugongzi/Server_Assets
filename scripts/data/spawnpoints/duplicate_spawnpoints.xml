@@ -1,0 +1,40 @@
+<root>
+  <gameObject name="80008001">
+    <transform>
+      <position>
+        <x>5.9161</x>
+        <y>1.5</y>
+        <z>10.3724</z>
+      </position>
+      <direction>
+        <x>0</x>
+        <y>0</y>
+        <z>0</z>
+      </direction>
+      <scale>
+        <x>5</x>
+        <y>5</y>
+        <z>5</z>
+      </scale>
+    </transform>
+  </gameObject>
+  <gameObject name="80012001">
+    <transform>
+      <position>
+        <x>10.1176</x>
+        <y>1.5</y>
+        <z>5.205</z>
+      </position>
+      <direction>
+        <x>0</x>
+        <y>0</y>
+        <z>0</z>
+      </direction>
+      <scale>
+        <x>5</x>
+        <y>5</y>
+        <z>5</z>
+      </scale>
+    </transform>
+  </gameObject>
+</root>

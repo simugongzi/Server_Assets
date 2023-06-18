@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
-import KBEngine
+try:
+    import KBEngine
+except ImportError:
+    from kbengine_tips.BaseApp import KBEngine
+    
 import random
 import time
 import d_spaces
@@ -19,7 +23,7 @@ class Account(KBEngine.Proxy):
 		KBEngine.Proxy.__init__(self)
 		self.activeAvatar = None
 		self.relogin = time.time()
-	
+    
 	def reqAvatarList(self):
 		"""
 		exposed.
@@ -147,6 +151,7 @@ class Account(KBEngine.Proxy):
 		该entity被正式激活为可使用， 此时entity已经建立了client对应实体， 可以在此创建它的
 		cell部分。
 		"""
+		
 		INFO_MSG("Account[%i]::onClientEnabled:entities enable. entityCall:%s, clientType(%i), clientDatas=(%s), hasAvatar=%s, accountName=%s" % \
 			(self.id, self.client, self.getClientType(), self.getClientDatas(), self.activeAvatar, self.__ACCOUNT_NAME__))
 			
@@ -178,7 +183,47 @@ class Account(KBEngine.Proxy):
 			self.activeAvatar = None
 			
 		return KBEngine.LOG_ON_ACCEPT
+
+	#TODO 将来详细设计下重复登录等异常	
+	# def onLogOnAttempt(self, ip, port, password):
+	# 	"""
+	# 	KBEngine method.
+	# 	该回调函数在客户端请求登陆时被调用
+	# 	@param ip: 客户端ip
+	# 	@param port: 客户端端口
+	# 	@param password: 客户端登陆密码
+	# 	"""
+	# 	WARNING_MSG("Simu Account[%i].onLogOnAttempt: ip=%s, port=%s, password=%s" % (self.id, ip, port, password))
+	# 	if self.activeAvatar is not None:
+	# 		self.activeAvatar.giveClientTo(self.client)
+	# 		return
 		
+	# 	if self.relogin + 5 > time.time():
+	# 		self.client.onLogOnFailed("正在重新登录，请稍后")
+	# 		return
+		
+	# 	self.relogin = time.time()
+		
+	# 	# 检查账号是否已经在其他地方登陆了
+	# 	if KBEngine.globalData.get("Account_%s" % self.__ACCOUNT_NAME__) is not None:
+	# 		self.client.onLogOnFailed("该账号已经在其他地方登陆了")
+	# 		return
+		
+	# 	# 检查账号是否被封禁了
+	# 	if self.isBanned():
+	# 		self.client.onLogOnFailed("该账号已经被封禁了")
+	# 		return
+		
+	# 	# 检查账号是否已经创建了角色
+	# 	if len(self.characters) == 0:
+	# 		self.client.onLogOnFailed("该账号还没有创建角色")
+	# 		return
+		
+	# 	# 登陆成功，将账号实体与客户端绑定
+	# 	self.client.logOnSuccessfully(self.id, self.characters.values())
+		
+	
+
 	def onClientDeath(self):
 		"""
 		KBEngine method.

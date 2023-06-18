@@ -60,6 +60,15 @@
 			<default>
 				<!-- <host> localhost </host> -->
 				<!-- <databaseName> kbe </databaseName> -->
+				<auth>  
+					<username> kbe </username>									<!-- Type: String -->
+					<password> pwd123456 </password>							<!-- Type: String -->
+					
+					<!-- 为true则表示password是加密(rsa)的, 可防止明文配置 
+						(is true, password is RSA)
+					-->
+					<encrypt> true </encrypt>
+				</auth>
 			</default>
 		</databaseInterfaces>
 	</dbmgr>
@@ -99,7 +108,7 @@
 			tickCount	： 每次添加数量			(Each time you add the number of)
 		-->
 		<defaultAddBots> 
-			<totalCount> 10  </totalCount>								<!-- Type: Integer -->
+			<totalCount> 2  </totalCount>								<!-- Type: Integer -->
 			<tickTime> 0.1  </tickTime>									<!-- Type: Float -->
 			<tickCount> 5  </tickCount>									<!-- Type: Integer -->
 		</defaultAddBots>

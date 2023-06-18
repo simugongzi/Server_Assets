@@ -53,6 +53,11 @@
 		<onLeave>
 			<Arg>		ENTITY_ID		</Arg>
 		</onLeave>
+
+		<logicEnd>
+		
+		</logicEnd>
+
 	</BaseMethods>
 
 	<CellMethods>
