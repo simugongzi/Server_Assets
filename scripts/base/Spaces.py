@@ -17,14 +17,15 @@ class Spaces(KBEngine.Entity, GameObject):
 		KBEngine.Entity.__init__(self)
 		GameObject.__init__(self)
 		
-		# 初始化空间分配器
+		# 服务器开启，就创建所有的大世界space
 		self.initAlloc()
 		
 		# 向全局共享数据中注册这个管理器的entityCall以便在所有逻辑进程中可以方便的访问
 		KBEngine.globalData["Spaces"] = self
-	
+
+	#TODO：这里改为创建大厅或者世界频道、和商城
 	def initAlloc(self):
-		# 注册一个定时器，在这个定时器中我们每个周期都创建出一些NPC，直到创建完所有
+		# 注册一个定时器，在这个定时器中我们每个周期都创建出一些大世界，直到创建完所有
 		self._spaceAllocs = {}
 		self.addTimer(3, 1, SCDefine.TIMER_TYPE_CREATE_SPACES)
 		
@@ -32,6 +33,8 @@ class Spaces(KBEngine.Entity, GameObject):
 		for utype in self._tmpDatas:
 			spaceData = d_spaces.datas.get(utype)
 			if spaceData["entityType"] == "SpaceDuplicate":
+				self._spaceAllocs[utype] = SpaceAllocDuplicate(utype)
+			elif spaceData["entityType"] == "SpaceHome":
 				self._spaceAllocs[utype] = SpaceAllocDuplicate(utype)
 			else:
 				self._spaceAllocs[utype] = SpaceAlloc(utype)

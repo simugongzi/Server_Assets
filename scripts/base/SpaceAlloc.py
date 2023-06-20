@@ -10,7 +10,7 @@ CONST_WAIT_CREATE = -1
 
 class SpaceAlloc:
 	"""
-	普通的场景分配器
+	大世界的场景分配器
 	"""
 	def __init__(self, utype):
 		self._spaces = {}
@@ -20,7 +20,7 @@ class SpaceAlloc:
 		
 	def init(self):
 		"""
-		virtual method.
+		初始化就创建一个空间，默认使用spaceType来指定属性。
 		"""
 		self.createSpace(0, {})
 	
@@ -46,11 +46,11 @@ class SpaceAlloc:
 		"""
 		一个space创建好后的回调
 		"""
-		DEBUG_MSG("Spaces::onSpaceCreatedCB: space %i. entityID=%i" % (self._utype, space.id))
+		DEBUG_MSG("Spaces::onSpaceCreatedCB: space %i. entityID=%i  spaceKey = %i" % (self._utype, space.id,spaceKey))
 
 	def onSpaceLoseCell(self, spaceKey):
 		"""
-		space的cell创建好了
+		space的cell
 		"""
 		del self._spaces[spaceKey]
 		
@@ -83,7 +83,8 @@ class SpaceAlloc:
 	def loginToSpace(self, avatarEntity, context):
 		"""
 		virtual method.
-		某个玩家请求登陆到某个space中
+		某个玩家请求登陆到某个space中,在spaces中调用。并最
+		终调用到space的login
 		"""
 		spaceKey = context.get("spaceKey", 0)
 		space = self.alloc({"spaceKey" : spaceKey})
@@ -106,7 +107,8 @@ class SpaceAlloc:
 	def teleportSpace(self, entityCall, position, direction, context):
 		"""
 		virtual method.
-		请求进入某个space中
+		请求进入某个space中，如果空间未创建完成，则将avatar们加入数组，等到空间创建完
+		成后在其回调onSpaceGetCell中 将等待的avatars传送进去。
 		"""
 		space = self.alloc(context)
 		if space is None:
@@ -128,7 +130,7 @@ class SpaceAlloc:
 		
 class SpaceAllocDuplicate(SpaceAlloc):
 	"""
-	副本分配器
+	副本分配器，使用特定的spaceKey
 	"""
 	def __init__(self, utype):
 		SpaceAlloc.__init__(self, utype)
@@ -147,6 +149,7 @@ class SpaceAllocDuplicate(SpaceAlloc):
 		任何一个人想进入到这个副本需要知道这个key。
 		"""
 		spaceKey = context.get("spaceKey", 0)
+		DEBUG_MSG("simu  spaceKey = %i" % (spaceKey))
 		space = self._spaces.get(spaceKey)
 		
 		assert spaceKey != 0

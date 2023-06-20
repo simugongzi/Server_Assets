@@ -22,8 +22,29 @@ class Account(KBEngine.Proxy):
 	def __init__(self):
 		KBEngine.Proxy.__init__(self)
 		self.activeAvatar = None
+		self.homeSpace = None
 		self.relogin = time.time()
+		self.createHomeSpace()
     
+	def createHomeSpace(self):
+		if self.homeSpace is not None:
+			return
+
+		spaceData = {
+			"nameSpace": "HomeSpace",
+			"spaceUType": GlobalConst.SPACE_TYPE_HOME,
+			"spawnPos": (0, 0, 0),
+			"persistent": True,
+			"isRealSpace": True,
+			"capacity": 100,
+			"autoSpaceKey": True,
+		}
+		KBEngine.createBaseLocally("Space", spaceData, self.onCreateHomeSpace)
+          
+
+	def onCreateHomeSpace(self):
+		pass
+
 	def reqAvatarList(self):
 		"""
 		exposed.
@@ -145,6 +166,10 @@ class Account(KBEngine.Proxy):
 	#--------------------------------------------------------------------------------------------
 	#                              Callbacks
 	#--------------------------------------------------------------------------------------------
+	
+	def onGiveClientToFailure(self):
+		pass
+
 	def onClientEnabled(self):
 		"""
 		KBEngine method.

@@ -20,6 +20,13 @@ INFO_MSG("SIMU test  ")
 WARNING_MSG("SIMU test  ")
 ERROR_MSG("SIMU test  ")
 
+
+
+
+SpaceAlloc创建普通space--大世界场景，服务器开启就创建。spacekey和属性都通过固定类型来指定。
+SpaceAllocDuplicate副本为SpaceAlloc的派生，按需生成，使用特定的spacekey和属性来创建space
+
+
 crriter{
 	Combat : propertys   
 	skill
