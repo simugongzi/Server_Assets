@@ -10,7 +10,7 @@
 	<Monster hasClient="true"></Monster>
 	<NPC hasClient="true"></NPC>
 	<Gate hasClient="true"></Gate>
-	<Spaces/>
+	<SpaceMgr hasCell="false"/>
 	<Space/>
 	<SpaceDuplicate/>
 	<SpawnPoint/>	

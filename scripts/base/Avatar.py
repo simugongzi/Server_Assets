@@ -28,11 +28,27 @@ class Avatar(KBEngine.Proxy,
 		
 		self._destroyTimer = 0
 
+
+# log：teleport onClientEnabled::{
+# 'cellData': {'HP': 0, 'HP_Max': 0, 'MP': 0, 'MP_Max': 0, '_forbidCounter': [],
+#  'component1': {'cc': 1002, 'own': 1001, 'state': 456}, 
+#  'component2': {'cc': 1002, 'own': 1001, 'state': 100}, 
+#  'component3': {'cc': 1001, 'own': 1001, 'state': 888}, 
+#  'dbid': 1, 'enemyLog': [], 'flags': 0, 'forbids': 0, 'isMoving': 0, 'level': 1, 
+#  'modelID': 90000001, 'modelScale': 1, 'moveSpeed': 60, 'name': 'avatar1', 'nextMoveTime': 0, 
+#  'own_val': 0, 'skills': [1, 1000101, 2000101, 3000101, 4000101, 5000101, 6000101], 
+#  'spaceUType': 3, 'spacekey': 7247854635959386113, 'state': 1, 'subState': 0, 'uid': 0, 'utype': 0, 
+#  'position': (-106.09700012207031, 1.0499999523162842, -149.968994140625), 
+#  'direction': (0.0, 0.0, 2.2514700889587402)}, 
+#  'component1': EntityComponent=Test, utype=3, owner=Avatar, ownerID=2047, domain=baseapp., 
+#  'component2': EntityComponent=Test, utype=3, owner=Avatar, ownerID=2047, domain=baseapp., 
+#  'persistentMapping': {}, 'roleType': 1, 'accountEntity': Account object at 0x0000018B0000DE88., 
+#  'nameB': 'avatar1', 'spaceUTypeB': 3, '_destroyTimer': 0}.
 	def onClientEnabled(self):
 		"""
 		KBEngine method.
 		该entity被正式激活为可使用， 此时entity已经建立了client对应实体， 可以在此创建它的
-		cell部分。
+		cell部分。；这里进行传送到指定空间。
 		"""
 		INFO_MSG("Avatar[%i-%s] entities enable. spaceUTypeB=%s, entityCall:%s" % (self.id, self.nameB, self.spaceUTypeB, self.client))
 		Teleport.onClientEnabled(self)

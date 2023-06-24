@@ -12,6 +12,7 @@ from AVATAR_INFOS import TAvatarInfos
 from AVATAR_INFOS import TAvatarInfosList
 from AVATAR_DATA import TAvatarData
 from KBEDebug import *
+import GlobalDefine
 import d_avatar_inittab
 
 class Account(KBEngine.Proxy):
@@ -22,24 +23,19 @@ class Account(KBEngine.Proxy):
 	def __init__(self):
 		KBEngine.Proxy.__init__(self)
 		self.activeAvatar = None
-		self.homeSpace = None
+		# self.homeSpace = None
 		self.relogin = time.time()
+		DEBUG_MSG("Account[%i].__init__: homeSpaceKey=%i." % (self.id, self.homeSpaceKey))
+		if self.homeSpaceKey == None or self.homeSpaceKey == 0:
+			self.homeSpaceKey = KBEngine.genUUID64()
+
+		# if not KBEngine.globalData["SpaceMgr"].isSpaceExist(self.spaceUTypeB,self.cellData["spacekey"]):
 		self.createHomeSpace()
     
 	def createHomeSpace(self):
-		if self.homeSpace is not None:
-			return
-
-		spaceData = {
-			"nameSpace": "HomeSpace",
-			"spaceUType": GlobalConst.SPACE_TYPE_HOME,
-			"spawnPos": (0, 0, 0),
-			"persistent": True,
-			"isRealSpace": True,
-			"capacity": 100,
-			"autoSpaceKey": True,
-		}
-		KBEngine.createBaseLocally("Space", spaceData, self.onCreateHomeSpace)
+		# if self.homeSpace is not None:
+			# return
+		KBEngine.globalData["SpaceMgr"].creatDynamicsSpace(GlobalDefine.HOMESPACE_UTYPE,self.homeSpaceKey)
           
 
 	def onCreateHomeSpace(self):
@@ -83,27 +79,28 @@ class Account(KBEngine.Proxy):
 		CLIENT_TYPE_BROWSER				= 5,	// web应用， html5，flash
 		CLIENT_TYPE_BOTS				= 6,	// bots
 		CLIENT_TYPE_MINI				= 7,	// 微型客户端
-		"""
-		spaceUType = GlobalConst.g_demoMaps.get(self.getClientDatas()[0], 1)
+		# """
+		# spaceUType = GlobalConst.g_demoMaps.get(self.getClientDatas()[0], 1)
 		
 		# 如果是机器人登陆，随机扔进一个场景
-		if self.getClientType() == 6:
-			while True:
-				spaceName = random.choice(list(GlobalConst.g_demoMaps.keys()))
-				if len(spaceName) > 0:
-					spaceUType = GlobalConst.g_demoMaps[spaceName]
-					break
+		# if self.getClientType() == 6:
+		# 	while True:
+		# 		spaceName = random.choice(list(GlobalConst.g_demoMaps.keys()))
+		# 		if len(spaceName) > 0:
+		# 			spaceUType = GlobalConst.g_demoMaps[spaceName]
+		# 			break
 
-		spaceData = d_spaces.datas.get(spaceUType)
-		
+		DEBUG_MSG("Account spaceUType=%s.\n" % (GlobalDefine.HOMESPACE_UTYPE))
+		spaceData = d_spaces.datas.get(GlobalDefine.HOMESPACE_UTYPE)
+		# spaceUType = 
 		props = {
 			"name"				: name,
 			"roleType"			: roleType,
 			"level"				: 1,
-			"spaceUType"		: spaceUType,
+			"spaceUType"		: GlobalDefine.HOMESPACE_UTYPE,
 			"direction"			: (0, 0, d_avatar_inittab.datas[roleType]["spawnYaw"]),
 			"position"			: spaceData.get("spawnPos", (0,0,0)),
-
+			"spacekey"			: self.homeSpaceKey,
 			"component1"		: { "bb" : 1231, "state" : 456},
 			"component3"		: { "state" : 888 },
 			}
@@ -112,8 +109,9 @@ class Account(KBEngine.Proxy):
 		if avatar:
 			avatar.writeToDB(self._onAvatarSaved)
 		
-		DEBUG_MSG("Account[%i].reqCreateAvatar:%s. spaceUType=%i, spawnPos=%s.\n" % (self.id, name, avatar.cellData["spaceUType"], spaceData.get("spawnPos", (0,0,0))))
-		
+		# DEBUG_MSG("Account[%i].reqCreateAvatar:%s. spaceUType=%i, spawnPos=%s.\n" % (self.id, name, avatar.cellData["spaceUType"], spaceData.get("spawnPos", (0,0,0))))
+		# DEBUG_MSG("Account[%i]. should be home spacekey=%s, spawnPos=%s.\n" % (avatar.cellData["spacekey"], spaceData.get("spawnPos", (0,0,0))))
+
 	def reqRemoveAvatar(self, name):
 		"""
 		exposed.
@@ -157,7 +155,7 @@ class Account(KBEngine.Proxy):
 				# 当角色创建好之后，account会调用giveClientTo将客户端控制权（可理解为网络连接与某个实体的绑定）切换到Avatar身上，
 				# 之后客户端各种输入输出都通过服务器上这个Avatar来代理，任何proxy实体获得控制权都会调用onClientEnabled
 				# Avatar继承了Teleport，Teleport.onClientEnabled会将玩家创建在具体的场景中
-				KBEngine.createEntityFromDBID("Avatar", dbid, self.__onAvatarCreated)
+				KBEngine.createEntityFromDBID("Avatar", dbid, self.__onAvatarCreatedForSpace)
 			else:
 				ERROR_MSG("Account[%i]::selectAvatarGame: not found dbid(%i)" % (self.id, dbid))
 		else:
@@ -166,9 +164,7 @@ class Account(KBEngine.Proxy):
 	#--------------------------------------------------------------------------------------------
 	#                              Callbacks
 	#--------------------------------------------------------------------------------------------
-	
-	def onGiveClientToFailure(self):
-		pass
+
 
 	def onClientEnabled(self):
 		"""
@@ -278,24 +274,24 @@ class Account(KBEngine.Proxy):
 				
 			self.activeAvatar = None
 			
-	def __onAvatarCreated(self, baseRef, dbid, wasActive):
+	def __onAvatarCreatedForSpace(self, baseRef, dbid, wasActive):
 		"""
-		选择角色进入游戏时被调用
+		选择角色进入游戏时被调用;
 		"""
 		if wasActive:
-			ERROR_MSG("Account::__onAvatarCreated:(%i): this character is in world now!" % (self.id))
+			ERROR_MSG("Account::__onAvatarCreatedForSpace:(%i): this character is in world now!" % (self.id))
 			return
 		if baseRef is None:
-			ERROR_MSG("Account::__onAvatarCreated:(%i): the character you wanted to created is not exist!" % (self.id))
+			ERROR_MSG("Account::__onAvatarCreatedForSpace:(%i): the character you wanted to created is not exist!" % (self.id))
 			return
 			
 		avatar = KBEngine.entities.get(baseRef.id)
 		if avatar is None:
-			ERROR_MSG("Account::__onAvatarCreated:(%i): when character was created, it died as well!" % (self.id))
+			ERROR_MSG("Account::__onAvatarCreatedForSpace:(%i): when character was created, it died as well!" % (self.id))
 			return
 		
 		if self.isDestroyed:
-			ERROR_MSG("Account::__onAvatarCreated:(%i): i dead, will the destroy of Avatar!" % (self.id))
+			ERROR_MSG("Account::__onAvatarCreatedForSpace:(%i): i dead, will the destroy of Avatar!" % (self.id))
 			avatar.destroy()
 			return
 			
@@ -305,6 +301,7 @@ class Account(KBEngine.Proxy):
 		avatar.cellData["moveSpeed"] = d_avatar_inittab.datas[info[2]]["moveSpeed"]
 		avatar.accountEntity = self
 		self.activeAvatar = avatar
+		DEBUG_MSG("Account[%i].__onAvatarCreatedForSpace:%s. spaceKey=%s, spaceUType=%i.\n" % (self.id, avatar.cellData["name"], avatar.cellData["spacekey"], avatar.cellData["spaceUType"]))
 		self.giveClientTo(avatar)
 		
 	def _onAvatarSaved(self, success, avatar):

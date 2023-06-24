@@ -10,7 +10,7 @@ CONST_WAIT_CREATE = -1
 
 class SpaceAlloc:
 	"""
-	大世界的场景分配器
+	大世界的场景 --分配器
 	"""
 	def __init__(self, utype):
 		self._spaces = {}
@@ -18,7 +18,7 @@ class SpaceAlloc:
 		self._pendingLogonEntities = {}
 		self._pendingEnterEntityMBs = {}
 		
-	def init(self):
+	def init(self, context):
 		"""
 		初始化就创建一个空间，默认使用spaceType来指定属性。
 		"""
@@ -135,11 +135,20 @@ class SpaceAllocDuplicate(SpaceAlloc):
 	def __init__(self, utype):
 		SpaceAlloc.__init__(self, utype)
 
-	def init(self):
+	def init(self, context):
 		"""
 		virtual method.
 		"""
-		pass # 副本不需要初始化创建一个
+		spaceKey = context.get("spaceKey", 0)
+		if spaceKey != 0:
+			space = self._spaces.get(spaceKey)
+	
+			if space is None:
+				self.createSpace(spaceKey, {})
+			else:
+				ERROR_MSG("space already exist spaceKey =%d"(spaceKey))
+
+
 		
 	def alloc(self, context):
 		"""

@@ -146,7 +146,7 @@ class Space(KBEngine.Entity, GameObject):
 		KBEngine method.
 		entity的cell部分实体丢失
 		"""
-		KBEngine.globalData["Spaces"].onSpaceLoseCell(self.spaceUTypeB, self.spaceKey)
+		KBEngine.globalData["SpaceMgr"].onSpaceLoseCell(self.spaceUTypeB, self.spaceKey)
 		GameObject.onLoseCell(self)
 		
 	def onGetCell(self):
@@ -156,7 +156,7 @@ class Space(KBEngine.Entity, GameObject):
 		"""
 		DEBUG_MSG("Space::onGetCell: %i" % self.id)
 		self.addTimer(0.1, 0.1, SCDefine.TIMER_TYPE_SPACE_SPAWN_TICK)
-		KBEngine.globalData["Spaces"].onSpaceGetCell(self.spaceUTypeB, self, self.spaceKey)
+		KBEngine.globalData["SpaceMgr"].onSpaceGetCell(self.spaceUTypeB, self, self.spaceKey)
 		GameObject.onGetCell(self)
 		
 

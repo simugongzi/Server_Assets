@@ -29,8 +29,11 @@ class SpaceDuplicateContext(SpaceContext):
 		
 def createContext(entity, spaceUType):
 	"""
+	此为根据entityType来判断调用SpaceContext或
+	者SpaceDuplicateContext的create函数
 	"""
 	spaceData = d_spaces.datas.get(spaceUType)
+	
 	
 	return {
 		"Space" : SpaceContext,

@@ -18,7 +18,7 @@ def onBaseAppReady(isBootstrap):
 	
 	if isBootstrap:
 		# 创建spacemanager
-		KBEngine.createEntityLocally( "Spaces", {} )
+		KBEngine.createEntityLocally( "SpaceMgr", {} )
 
 def onReadyForShutDown():
 	"""
@@ -53,8 +53,9 @@ def onReadyForLogin(isBootstrap):
 		INFO_MSG('initProgress: completed!')
 		return 1.0
 		
-	spacesEntity = KBEngine.globalData["Spaces"]
-	
+	spacesEntity = KBEngine.globalData["SpaceMgr"]
+	#检查大世界地图是否都初始化完成，
+	#TODO后续看是否有其他需要检查初始化结束的模块
 	tmpDatas = list(d_spaces.datas.keys())
 	count = 0
 	total = len(tmpDatas)
@@ -72,7 +73,7 @@ def onReadyForLogin(isBootstrap):
 		# INFO_MSG('initProgress: %f' % v)
 		return v;
 	
-	INFO_MSG('initProgress: completed!')
+	ERROR_MSG('initProgress: completed!')
 	return 1.0
 
 def onAutoLoadEntityCreate(entityType, dbid):

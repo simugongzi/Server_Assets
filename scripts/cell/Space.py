@@ -2,12 +2,13 @@
 import KBEngine
 from KBEDebug import *
 from interfaces.GameObject import GameObject
-
+import traceback
 import d_spaces
 
 class Space(KBEngine.Entity, GameObject):
 	"""
 	游戏场景，在这里代表野外大地图
+	spaceid即为space cell entity id
 	"""
 	def __init__(self):
 		KBEngine.Entity.__init__(self)

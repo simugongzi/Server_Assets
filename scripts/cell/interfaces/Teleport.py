@@ -48,4 +48,5 @@ class Teleport:
 		"""
 		entity销毁
 		"""
+		#TODO: add spaceUtype
 		self.getCurrSpaceBase().logoutSpace(self.id)

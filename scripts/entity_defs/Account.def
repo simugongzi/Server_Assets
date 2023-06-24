@@ -13,7 +13,12 @@
 			<Default>		0						</Default>
 			<Persistent>		true				</Persistent>
 		</lastSelCharacter>
-		
+		<homeSpaceKey>
+			<Type>			DBID				</Type>
+			<Flags>			BASE_AND_CLIENT				</Flags>
+			<Default>		0						</Default>
+			<Persistent>	true				</Persistent>
+		</homeSpaceKey>
 		<activeCharacter>
 			<Type>			ENTITYCALL				</Type>
 			<Flags>			BASE					</Flags>

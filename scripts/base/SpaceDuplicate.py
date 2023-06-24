@@ -12,4 +12,5 @@ class SpaceDuplicate(Space):
 	"""
 	def __init__(self):
 		Space.__init__(self)
+		# self.MaxPlayer  = initFromConfig
 		

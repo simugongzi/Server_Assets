@@ -6,6 +6,12 @@
 			<Flags>			CELL_PUBLIC_AND_OWN		</Flags>
 			<Persistent>	true					</Persistent>
 		</spaceUType>
+		<spacekey>
+			<Utype>			41008					</Utype>
+			<Type>			DBID					</Type>
+			<Flags>			CELL_PUBLIC_AND_OWN		</Flags>
+			<Persistent>	true					</Persistent>
+		</spacekey>
 	</Properties>
 
 	<CellMethods>

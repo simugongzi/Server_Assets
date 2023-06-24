@@ -2,3 +2,5 @@
 logs/
 *.pyc
 scripts.code-workspace
+_tmp/
+kbengine_unity3d_plugins/

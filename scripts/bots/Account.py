@@ -15,8 +15,10 @@ class Account(KBEngine.Entity):
 		"""
 		
 		DEBUG_MSG("Account:onReqAvatarList::%s" % (list(infos['values'])))
-		self.base.reqCreateAvatar(1, "kbe_bot_%s" % self.id)
-		self.characters = copy.deepcopy(infos["values"])
+		if len(list(infos['values']))!= 0:
+			self.characters = copy.deepcopy(infos["values"])
+		else:
+			self.base.reqCreateAvatar(1, "kbe_bot_%s" % self.id)
 
 	def onCreateAvatarResult(self, retcode, info):
 		"""

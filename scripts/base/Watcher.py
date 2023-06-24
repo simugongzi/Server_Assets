@@ -14,7 +14,14 @@ def countPlayers():
 
 	return i
 	
+def countRooms():
+	i = 0
+	for s in KBEngine.globalData.keys():
+		if "Room" in s:
+			i += 1
 
-
+	return i
+	
 def setup():
 	KBEngine.addWatcher("players", "UINT32", countPlayers)
+	KBEngine.addWatcher("rooms", "UINT32", countRooms)
