@@ -94,7 +94,7 @@ class SpaceMgr(KBEngine.Entity, GameObject):
 			else:
 				self._spaceAllocs[spaceUType] = SpaceAlloc(spaceUType)
 		else:
-			DEBUG_MSG("creatSpace _spaceAllocs[spaceUType]  exist" )
+			INFO_MSG("creatSpace _spaceAllocs[spaceUType]  exist" )
 
 		if spaceKey != None and spaceKey != 0:
 			self._spaceAllocs[spaceUType].init({"spaceKey" : spaceKey})

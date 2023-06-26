@@ -31,6 +31,29 @@ ERROR_MSG("SIMU test  ")
 
 ###Python命令行调试游戏逻辑例子(在Python命令行输入):
 
+
+
+KBEngine.entities.get(xxx).__dict__
+KBEngine.entities.get(1030).jump
+KBEngine.entities.keys()
+
+
+#字典遍历
+	for key, data in dictData.items()
+
+	for key in dictData:
+
+	for k in dictData.iterkeys():
+
+	for k,v in zip(dictData.iterkeys(), dictData.itervalues()):
+
+
+列表遍历
+	for app_id in app_list:
+	for index,app_id in enumerate(app_list):
+	for i in range(len(app_list)):
+	for app_id in iter(app_list):
+
 查看当前进程上的所有Entity:
 KBEngine.globalData.items()
 KBEngine.entities.items()
@@ -99,28 +122,7 @@ crriter{
 }
 
 
-
-
-cell battle mode
-{
-
-
-
-
-
-
-Avatar的cell创建的时候 在space中创建队员 队员具有AI并由服务器控制 但是ai中优先执行avatar客户端发送的指令
-同时 Avatar也具有AI 并设置 controlby = NONE 即，行动也由服务器端控制
-
-
-
-role/cardID  and level skillConfig  equipConfig to init every character's attr
-
-
-}
-
-
-
+-----------------------------------------------------------
 
 战斗大厅：（和好友一起加入   ；  搜索加入）
 {
@@ -129,28 +131,40 @@ role/cardID  and level skillConfig  equipConfig to init every character's attr
 }
 
 
-
+-----------------------------------------------------------
 
 副本逻辑实现
 
 
-
-
-
-
-spaceManager config
+spaceBattleLogicManager config
 {
+	type:boss / 守护采集 守护xx 多久或者多少波怪 /护送 /争夺  /死斗 一方全死亡 /kill count
 
-	character spawn pos{
-
-	}
+	character spawn pos{	}
 
 	rules{
-		Player Target  :K boss；守护xx 多久或者多少波怪；死斗无时间限制直到全部死亡；
+		Player Target  :K boss；；死斗无时间限制直到全部死亡；
 		event atTime
 		start;bossTime;timeLimted;Fail&destroy
 	}
 
+	事件节点
+	{
+		触发类型：时间、上一事件结束、boss附属死亡、到达结束时间等
+		触发数值
+		触发效果：
+		{EventType:etype_Movie,}
+		{EventType:etype_TIME_After,}
+		{EventType:etype_TIME_Before,}
+		{EventType:etype_TIME_At,}
+
+		{EventType:etype_Condition,}
+		{EventType:etype_Location,}
+
+
+
+	}
+	{}
 	monsters{
 		{role  level num spawnAtTime}
 
@@ -175,7 +189,20 @@ spaceManager config
 玩家离开副本 副本中检测到无任何玩家则副本自动销毁
 
 
+-----------------------------------------------------------
 
+cell battle mode
+{
+
+Avatar的cell创建的时候 在space中创建队员 队员具有AI并由服务器控制 但是ai中优先执行avatar客户端发送的指令
+同时 Avatar也具有AI 并设置 controlby = NONE 即，行动也由服务器端控制
+
+role/cardID  and level skillConfig  equipConfig to init every character's attr
+
+}
+
+
+-----------------------------------------------------------
 
 account 
 {
@@ -196,31 +223,35 @@ bag:[
 
 
 }
+-----------------------------------------------------------
+ItemSet{
+name
+
+effects{
+
+}
+}
+
+WeaponSet(ItemSet){
+randome value
+
+}
+-----------------------------------------------------------
+
+Skill
+{
+
+}
 
 
+
+Buff/Debuf
+{
+
+}
+
+-----------------------------------------------------------
 
 对于副本来说 因为大量的相同副本的地图信息是一样的 是否有更好的解决方法来统一使用相同地图的导航 以节省消耗;或者说可以怎么设计逻辑？
 
 
-
-
-KBEngine.entities.get(xxx).__dict__
-KBEngine.entities.get(1030).jump
-KBEngine.entities.keys()
-
-
-#字典遍历
-	for key, data in dictData.items()
-
-	for key in dictData:
-
-	for k in dictData.iterkeys():
-
-	for k,v in zip(dictData.iterkeys(), dictData.itervalues()):
-
-
-列表遍历
-	for app_id in app_list:
-	for index,app_id in enumerate(app_list):
-	for i in range(len(app_list)):
-	for app_id in iter(app_list):
